@@ -7,15 +7,6 @@ LIC_AGREEMENT       = ACCEPT
 PROD       = {{ db2_product }}
 FILE       = {{ db2_install_path }}
 INSTALL_TYPE       = TYPICAL
-*-----------------------------------------------
-*  Das properties
-*-----------------------------------------------
-* DAS_CONTACT_LIST       = LOCAL
-*  DAS user
-* DAS_USERNAME       = dasusr1
-* DAS_GROUP_NAME       = dasadm1
-* DAS_HOME_DIRECTORY       = /home/dasusr1
-* DAS_PASSWORD       = dasusr1
 * ----------------------------------------------
 *  Instance properties
 * ----------------------------------------------
@@ -29,7 +20,6 @@ INSTANCE       = {{ instance_id }}
 {{ instance_id }}.AUTOSTART       = YES
 {{ instance_id }}.SVCENAME       = db2c_{{ db2_db_username }}
 {{ instance_id }}.PORT_NUMBER       = {{ instance_port }}
-* {{ instance_id }}.FCM_PORT_NUMBER       = {{ instance_fcm_port }}
 {{ instance_id }}.MAX_LOGICAL_NODES       = 4
 {{ instance_id }}.CONFIGURE_TEXT_SEARCH       = NO
 *  Fenced user
