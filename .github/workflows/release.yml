@@ -51,7 +51,7 @@ jobs:
           ansible-galaxy collection build
           ls -l *.tar.gz
           export collection_archive=`ls ./*tar.gz`
-          ansible-galaxy collection publish --token "${{ GALAXY_TOKEN }}" -c -vvv $collection_archive
+          ansible-galaxy collection publish --token "${{ secrets.GALAXY_TOKEN }}" -c -vvv $collection_archive
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -59,3 +59,4 @@ jobs:
           prerelease: false
           files: |
             *.tar.gz
+
