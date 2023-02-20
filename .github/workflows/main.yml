@@ -58,6 +58,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ env.python_ver }}
+          cache: 'pip'
       # remove android and dotnet to gain more spaces for oracle installation
       - name: Maximize build space
         run: |
@@ -65,13 +66,6 @@ jobs:
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /usr/share/dotnet
           df -h
-      - name: Setup Python Cache
-        uses: actions/cache@v2
-        with:
-          key: pip-${{ matrix.scenario }}-${{ hashFiles('ci-requirements.txt') }}
-          path: |
-            ~/.cache/pip
-            !~/.cache/pip/log/debug.log
       - name: Install dependencies
         run: |
           python -m pip install -U pip
