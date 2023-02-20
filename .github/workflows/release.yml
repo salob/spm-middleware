@@ -7,7 +7,7 @@ on:
   # Triggers the workflow on push or pull request events
   # but only for the main branch
   push:
-    branches: [main]
+    branches: [sian/multi-db2copies]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -47,15 +47,19 @@ jobs:
           chmod -v +x ./scripts/*
       - name: Publish to Galaxy
         run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod a+x /usr/local/bin/yq
+          yq --version    
+          echo $(yq galaxy.yml version)
           echo "COLLECTION_VERSION=$(yq r galaxy.yml version)" >> $GITHUB_ENV
           ansible-galaxy collection build
           echo "COLLECTION_ARCHIVE=$(ls ./*tar.gz)" >> $GITHUB_ENV
           export collection_archive=`ls ./*tar.gz`
-          ansible-galaxy collection publish --token "${{ secrets.GALAXY_TOKEN }}" -c -vvv $collection_archive
+          #ansible-galaxy collection publish --token "${{ secrets.GALAXY_TOKEN }}" -c -vvv $collection_archive
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          version: ${{ env.COLLECTION_VERSION }}
+          automatic_release_tag: ${{ env.COLLECTION_VERSION }}
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
