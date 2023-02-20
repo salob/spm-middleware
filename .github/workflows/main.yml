@@ -20,7 +20,7 @@ on:
 jobs:
   ci:
     env:
-      ANSIBLE_ROLES_PATH: "." 
+      ANSIBLE_ROLES_PATH: "."
       ARTIFACTORY_TOKEN: "${{ secrets.ARTIFACTORY_TOKEN }}"
       ARTIFACTORY_REPO: "${{ secrets.ARTIFACTORY_REPO }}"
       ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
