@@ -45,18 +45,13 @@ jobs:
           python -m pip install -r ci-requirements.txt
       - name: Prepare environment
         run: |
-          #mkdir -pv ~/.ansible/collections/${{ env.collection_namespace }}
-          #ln -s ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }} ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
           chmod -v +x ./scripts/*
       - name: Publish to Galaxy
-        env:
-          ANSIBLE_GALAXY_SERVER_LIST: release
-          ANSIBLE_GALAXY_SERVER_RELEASE_URL: https://galaxy.ansible.com/
-          ANSIBLE_GALAXY_SERVER_RELEASE_TOKEN: "${{ secrets.GALAXY_TOKEN }}"
         run: |
           ansible-galaxy collection build
           ls -l *.tar.gz
-          ansible-galaxy collection publish -c -vvv "./*.tar.gz"
+          export collection_archive=`ls ./*tar.gz`
+          ansible-galaxy collection publish --token "${{ GALAXY_TOKEN }}" -c -vvv $collection_archive
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
