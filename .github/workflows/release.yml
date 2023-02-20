@@ -43,7 +43,7 @@ jobs:
         run: |
           sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           sudo chmod a+x /usr/local/bin/yq
-          yq --version    
+          yq --version
           echo $(yq galaxy.yml version)
           echo $(yq e '.version' galaxy.yml)
           echo "COLLECTION_VERSION=$(yq e '.version' galaxy.yml)" >> $GITHUB_ENV
