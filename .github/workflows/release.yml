@@ -17,7 +17,7 @@ on:
 jobs:
   release:
     env:
-      python_ver: 3.10
+      python_ver: "3.10"
     runs-on: ubuntu-latest
     defaults:
       run:
