@@ -7,7 +7,7 @@ on:
   # Triggers the workflow on push or pull request events
   # but only for the main branch
   push:
-    branches: [main]
+    branches: [sian/multi-db2copies]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -17,19 +17,16 @@ on:
 jobs:
   release:
     env:
-      collection_namespace: merative
-      collection_name: spm_middleware
       python_ver: 3.8
-      version: 1.1.8
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+        working-directory: ansible_collections
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          path: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+          path: ansible_collections
       - name: Setup Python v${{ env.python_ver }}
         uses: actions/setup-python@v2
         with:
@@ -48,8 +45,8 @@ jobs:
           python -m pip install -r ci-requirements.txt
       - name: Prepare environment
         run: |
-          mkdir -pv ~/.ansible/collections/${{ env.collection_namespace }}
-          ln -s ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }} ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+          #mkdir -pv ~/.ansible/collections/${{ env.collection_namespace }}
+          #ln -s ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }} ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
           chmod -v +x ./scripts/*
       - name: Publish to Galaxy
         env:
@@ -59,11 +56,11 @@ jobs:
         run: |
           ansible-galaxy collection build
           ls -l *.tar.gz
-          ansible-galaxy collection publish -c -vvv "./${{ env.collection_namespace }}-${{ env.collection_name }}-${{ env.version }}.tar.gz"
+          ansible-galaxy collection publish -c -vvv "./*.tar.gz"
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            ${{ env.collection_namespace }}-${{ env.collection_name }}-${{ env.version }}.tar.gz
+            *.tar.gz
