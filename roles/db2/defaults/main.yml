@@ -1,6 +1,5 @@
 ---
 instance_id: inst1
-
 instance_port: 50000
 
 db2_install_path: /opt/IBM/db2
