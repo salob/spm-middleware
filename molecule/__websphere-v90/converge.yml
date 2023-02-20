@@ -11,5 +11,5 @@
     download_header: { 'X-JFrog-Art-Api': "{{ lookup('env', 'ARTIFACTORY_TOKEN') }}"}
 
   roles:
-    - iim
+    - spm_middleware.iim
     - websphere
