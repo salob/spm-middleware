@@ -48,8 +48,9 @@ jobs:
           echo $(yq e '.version' galaxy.yml)
           echo "COLLECTION_VERSION=$(yq e '.version' galaxy.yml)" >> $GITHUB_ENV
           ansible-galaxy collection build
-          echo "COLLECTION_ARCHIVE=$(ls ./*tar.gz)" >> $GITHUB_ENV
-          export collection_archive=`ls ./*tar.gz`
+          echo "COLLECTION_ARCHIVE=$(ls $PWD/*tar.gz)" >> $GITHUB_ENV
+          #GITHUB_ENV update is only available in subsequent runs
+          export collection_archive=`ls $PWD/*tar.gz`
           #ansible-galaxy collection publish --token "${{ secrets.GALAXY_TOKEN }}" -c -vvv $collection_archive
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@latest
