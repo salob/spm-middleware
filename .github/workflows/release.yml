@@ -45,7 +45,8 @@ jobs:
           sudo chmod a+x /usr/local/bin/yq
           yq --version    
           echo $(yq galaxy.yml version)
-          echo "COLLECTION_VERSION=$(yq r galaxy.yml version)" >> $GITHUB_ENV
+          echo $(yq e '.version' galaxy.yml)
+          echo "COLLECTION_VERSION=$(yq e '.version' galaxy.yml)" >> $GITHUB_ENV
           ansible-galaxy collection build
           echo "COLLECTION_ARCHIVE=$(ls ./*tar.gz)" >> $GITHUB_ENV
           export collection_archive=`ls ./*tar.gz`
