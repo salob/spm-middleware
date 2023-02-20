@@ -23,8 +23,6 @@ jobs:
       ARTIFACTORY_TOKEN: "${{ secrets.ARTIFACTORY_TOKEN }}"
       ARTIFACTORY_REPO: "${{ secrets.ARTIFACTORY_REPO }}"
       ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
-      collection_namespace: ibm
-      collection_name: spm_middleware
       python_ver: 3.8
     runs-on: ubuntu-latest
     strategy:
@@ -50,12 +48,12 @@ jobs:
           # - weblogic-centos-8
     defaults:
       run:
-        working-directory: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+        working-directory: ansible_collections
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          path: ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+          path: ansible_collections
       - name: Setup Python v${{ env.python_ver }}
         uses: actions/setup-python@v2
         with:
@@ -79,9 +77,16 @@ jobs:
           python -m pip install -U pip
           python -m pip install -r ci-requirements.txt
       - name: Prepare environment
+        env:
+          COLLECTION_NAMESPACE: $(yq r galaxy.yml namespace)
+          COLLECTION_NAME: $(yq r galaxy.yml name)
+          COLLECTION_VERSION: $(yq r galaxy.yml version)
+          REPO_CLONE_FOLDERNAME: ${PWD##*/}
         run: |
-          mkdir -pv ~/.ansible/collections/${{ env.collection_namespace }}
-          ln -s ansible_collections/${{ env.collection_namespace }}/${{ env.collection_name }} ~/.ansible/collections/${{ env.collection_namespace }}/${{ env.collection_name }}
+          ls -la
+          env
+          mkdir -pv ~/.ansible/collections
+          ln -s ansible_collections ~/.ansible/collections
           chmod -v +x ./scripts/*
       # - name: Sanity checks
       #   run: |

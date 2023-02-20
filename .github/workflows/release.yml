@@ -17,10 +17,10 @@ on:
 jobs:
   release:
     env:
-      collection_namespace: ibm
+      collection_namespace: merative
       collection_name: spm_middleware
       python_ver: 3.8
-      version: 1.1.6
+      version: 1.1.8
     runs-on: ubuntu-latest
     defaults:
       run:
