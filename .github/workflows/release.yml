@@ -47,13 +47,15 @@ jobs:
           chmod -v +x ./scripts/*
       - name: Publish to Galaxy
         run: |
+          echo "COLLECTION_VERSION=$(yq r galaxy.yml version)" >> $GITHUB_ENV
           ansible-galaxy collection build
-          ls -l *.tar.gz
+          echo "COLLECTION_ARCHIVE=$(ls ./*tar.gz)" >> $GITHUB_ENV
           export collection_archive=`ls ./*tar.gz`
-          ansible-galaxy collection publish --token "${{ secrets.GALAXY_TOKEN }}" -c -vvv $collection_archive
+          ansible-galaxy collection publish --token "${{ secrets.GALAXY_TOKEN }}" -c -vvv "${{ env.COLLECTION_ARCHIVE }}"
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
+          version: "${{ env.COLLECTION_VERSION }}"
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
