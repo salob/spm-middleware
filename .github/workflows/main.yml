@@ -23,7 +23,7 @@ jobs:
       ARTIFACTORY_TOKEN: "${{ secrets.ARTIFACTORY_TOKEN }}"
       ARTIFACTORY_REPO: "${{ secrets.ARTIFACTORY_REPO }}"
       ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
-      python_ver: 3.8
+      python_ver: 3.10
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
