@@ -50,13 +50,15 @@ jobs:
           echo "COLLECTION_VERSION=$(yq r galaxy.yml version)" >> $GITHUB_ENV
           ansible-galaxy collection build
           echo "COLLECTION_ARCHIVE=$(ls ./*tar.gz)" >> $GITHUB_ENV
-          export collection_archive=`ls ./*tar.gz`
-          ansible-galaxy collection publish --token "${{ secrets.GALAXY_TOKEN }}" -c -vvv "${{ env.COLLECTION_ARCHIVE }}"
+          #export collection_archive=`ls ./*tar.gz`
+          echo $COLLECTION_VERSION
+          echo $COLLECTION_ARCHIVE
+          ansible-galaxy collection publish --token "${{ secrets.GALAXY_TOKEN }}" -c -vvv $COLLECTION_ARCHIVE
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          version: "${{ env.COLLECTION_VERSION }}"
+          version: $COLLECTION_VERSION
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            *.tar.gz
+            $COLLECTION_ARCHIVE
