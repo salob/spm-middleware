@@ -77,16 +77,11 @@ jobs:
           python -m pip install -U pip
           python -m pip install -r ci-requirements.txt
       - name: Prepare environment
-        env:
-          COLLECTION_NAMESPACE: $(yq r galaxy.yml namespace)
-          COLLECTION_NAME: $(yq r galaxy.yml name)
-          COLLECTION_VERSION: $(yq r galaxy.yml version)
-          REPO_CLONE_FOLDERNAME: ${PWD##*/}
         run: |
           ls -la
           env
-          mkdir -pv ~/.ansible/collections
-          ln -s ansible_collections ~/.ansible/collections
+          #mkdir -pv ~/.ansible/collections
+          #ln -s ansible_collections ~/.ansible/collections
           chmod -v +x ./scripts/*
       # - name: Sanity checks
       #   run: |
