@@ -75,6 +75,7 @@ jobs:
           ls -la
           mkdir -p $HOME/.ansible/collections/ansible_collections/merative/spm_middleware
           ln -s $PWD $HOME/.ansible/collections/ansible_collections/merative/spm_middleware
+          ls -la $HOME/.ansible/collections/ansible_collections/merative/spm_middleware
           chmod -v +x ./scripts/*
       # - name: Sanity checks
       #   run: |
