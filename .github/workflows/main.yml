@@ -73,11 +73,11 @@ jobs:
       - name: Prepare environment
         run: |
           # fudge collection install for molecule where role/plugin dependencies are required
-          echo $PWD
           mkdir -p $HOME/.ansible/collections/merative/spm_middleware
           cd ..
           ln -s ./spm_middleware $HOME/.ansible/collections/merative/spm_middleware
-          ls -l $HOME/.ansible/collections/merative/spm_middleware
+          ls $HOME/.ansible/collections/merative/spm_middleware
+          cd spm_middleware
           chmod -v +x ./scripts/*
       # - name: Sanity checks
       #   run: |
