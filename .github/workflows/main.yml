@@ -74,12 +74,12 @@ jobs:
         run: |
           ls -la
           env
-          #mkdir -pv ~/.ansible/collections
-          #ln -s ansible_collections ~/.ansible/collections
+          mkdir -pv ~/.ansible/collections
+          ln -s ansible_collections ~/.ansible/collections
           chmod -v +x ./scripts/*
       # - name: Sanity checks
       #   run: |
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
       - name: Molecule
         run: |
-          molecule test -s ${{ matrix.scenario }}
+          molecule -vvv test -s ${{ matrix.scenario }}

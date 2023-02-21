@@ -10,7 +10,8 @@ lint: |
 
 platforms:
   - name: centos-8
-    image: dokken/centos-8
+    #image: dokken/centos-8
+    image: sian/rocky-8
     dockerfile: ../_resources/Dockerfile.j2
     pre_build_image: false
     privileged: true
