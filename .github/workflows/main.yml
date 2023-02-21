@@ -73,9 +73,16 @@ jobs:
       - name: Prepare environment
         run: |
           ls -la
-          mkdir -p $HOME/.ansible/collections/ansible_collections/merative/spm_middleware
-          ln -s $PWD $HOME/.ansible/collections/ansible_collections/merative/spm_middleware
-          ls -la $HOME/.ansible/collections/ansible_collections/merative/spm_middleware
+          export REPO_CLONE_FOLDERNAME=${PWD##*/}
+          # Create folder structure required by ansible-test and other tooling
+          cd ..
+          mkdir -p ansible_collections/merative
+          mv $REPO_CLONE_FOLDERNAME ansible_collections/merative/spm_middleware
+          cd ansible_collections/merative/spm_middleware
+          # Fake install cloned collection (required for molecule)
+          mkdir -p $HOME/.ansible/collections/merative
+          ln -s ansible_collections/merative/spm_middleware $HOME/.ansible/collections/merative/spm_middleware
+          ls -la $HOME/.ansible/collections/merative/spm_middleware
           chmod -v +x ./scripts/*
       # - name: Sanity checks
       #   run: |
