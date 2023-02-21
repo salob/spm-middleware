@@ -48,12 +48,12 @@ jobs:
           - weblogic-centos-8
     defaults:
       run:
-        working-directory: ansible_collections
+        working-directory: spm_middleware
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          path: ansible_collections
+          path: spm_middleware
       - name: Setup Python v${{ env.python_ver }}
         uses: actions/setup-python@v2
         with:
@@ -72,17 +72,12 @@ jobs:
           python -m pip install -r ci-requirements.txt
       - name: Prepare environment
         run: |
-          ls -la
-          export REPO_CLONE_FOLDERNAME=${PWD##*/}
-          # Create folder structure required by ansible-test and other tooling
+          # fudge collection install for molecule where role/plugin dependencies are required
+          echo $PWD
+          mkdir -p $HOME/.ansible/collections/merative/spm_middleware
           cd ..
-          mkdir -p ansible_collections/merative
-          mv $REPO_CLONE_FOLDERNAME ansible_collections/merative/spm_middleware
-          cd ansible_collections/merative/spm_middleware
-          # Fake install cloned collection (required for molecule)
-          mkdir -p $HOME/.ansible/collections/merative
-          ln -s ansible_collections/merative/spm_middleware $HOME/.ansible/collections/merative/spm_middleware
-          ls -la $HOME/.ansible/collections/merative/spm_middleware
+          ln -s ./spm_middleware $HOME/.ansible/collections/merative/spm_middleware
+          ls -l $HOME/.ansible/collections/merative/spm_middleware
           chmod -v +x ./scripts/*
       # - name: Sanity checks
       #   run: |
