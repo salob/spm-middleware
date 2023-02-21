@@ -73,9 +73,8 @@ jobs:
       - name: Prepare environment
         run: |
           ls -la
-          env
-          mkdir -pv ~/.ansible/collections
-          ln -s ansible_collections ~/.ansible/collections
+          mkdir -p $HOME/.ansible/collections/ansible_collections/merative/spm_middleware
+          ln -s $PWD $HOME/.ansible/collections/ansible_collections/merative/spm_middleware
           chmod -v +x ./scripts/*
       # - name: Sanity checks
       #   run: |
