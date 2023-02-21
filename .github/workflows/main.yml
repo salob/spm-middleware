@@ -80,10 +80,12 @@ jobs:
           cd ..
           mv spm_middleware /opt/spm_middleware
           ln -s /opt/spm_middleware $HOME/.ansible/collections/merative/spm_middleware
-          ls $HOME/.ansible/collections/merative/spm_middleware     
+          ls $HOME/.ansible/collections/merative/spm_middleware
+          mkdir spm_middleware     
       # - name: Sanity checks
       #   run: |
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
       - name: Molecule
         run: |
+          cd /opt/spm_middleware
           molecule -vvv test -s ${{ matrix.scenario }}
