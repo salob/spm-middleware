@@ -73,9 +73,10 @@ jobs:
       - name: Prepare environment
         run: |
           # fudge collection install for molecule where role/plugin dependencies are required
-          mkdir -p $HOME/.ansible/collections/merative/spm_middleware
+          ls -la
+          mkdir -p $HOME/.ansible/collections/merative
           cd ..
-          ln -s ./spm_middleware $HOME/.ansible/collections/merative/spm_middleware
+          ln -s spm_middleware $HOME/.ansible/collections/merative/spm_middleware
           ls $HOME/.ansible/collections/merative/spm_middleware
           cd spm_middleware
           chmod -v +x ./scripts/*
