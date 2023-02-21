@@ -9,10 +9,10 @@ lint: |
   yamllint .
 
 platforms:
-  - name: centos-8
-    image: dokken/centos-8
+  - name: rocky-8
+    image: rockylinux:8
     dockerfile: ../_resources/Dockerfile.j2
-    pre_build_image: false
+    pre_build_image: true
     privileged: true
     volume_mounts:
       - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
