@@ -74,13 +74,13 @@ jobs:
         run: |
           # fudge collection install for molecule where role/plugin dependencies are required
           ls -la
+          chmod -v +x ./scripts/*
           echo $PWD
           mkdir -p $HOME/.ansible/collections/merative
           cd ..
-          ln -s spm_middleware $HOME/.ansible/collections/merative/spm_middleware
-          ls $HOME/.ansible/collections/merative/spm_middleware
-          cd spm_middleware
-          chmod -v +x ./scripts/*
+          mv spm_middleware /opt/spm_middleware
+          ln -s /opt/spm_middleware $HOME/.ansible/collections/merative/spm_middleware
+          ls $HOME/.ansible/collections/merative/spm_middleware     
       # - name: Sanity checks
       #   run: |
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
