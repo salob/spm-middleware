@@ -72,12 +72,13 @@ jobs:
           python -m pip install -r ci-requirements.txt
       - name: Prepare environment
         run: |
+          cd ${{ env.CUSTOM_CHECKOUT_LOC }}
           export COLLECTION_NAMESPACE=$(yq e '.namespace' galaxy.yml)
           export COLLECTION_NAME=$(yq e '.name' galaxy.yml)
           export COLLECTION_VERSION=$(yq e '.version' galaxy.yml)
           # export REPO_CLONE_FOLDERNAME=${PWD##*/}
           # Create folder structure required by ansible-test and other tooling
-          # cd ..
+          cd ..
           mkdir -p ansible_collections/$COLLECTION_NAMESPACE
           mv ${{ env.CUSTOM_CHECKOUT_LOC }} ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
           cd ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
