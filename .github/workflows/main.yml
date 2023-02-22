@@ -77,6 +77,8 @@ jobs:
           export COLLECTION_NAMESPACE=$(yq e '.namespace' galaxy.yml)
           export COLLECTION_NAME=$(yq e '.name' galaxy.yml)
           export COLLECTION_VERSION=$(yq e '.version' galaxy.yml)
+          export NEW_REPO_LOC=ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          echo "NEW_REPO_LOC=$NEW_REPO_LOC" >> $GITHUB_ENV
           # export REPO_CLONE_FOLDERNAME=${PWD##*/}
           # Create folder structure required by ansible-test and other tooling
           cd ..
@@ -93,6 +95,6 @@ jobs:
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
       - name: Molecule
         run: |
-          cd ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          cd ${{ env.NEW_REPO_LOC }}
           ls -la
           molecule test -s ${{ matrix.scenario }}
