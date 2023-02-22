@@ -46,14 +46,9 @@ jobs:
           - liberty-centos-8
           # - weblogic-centos-7
           - weblogic-centos-8
-    defaults:
-      run:
-        working-directory: spm_middleware
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          path: spm_middleware
       - name: Setup Python v${{ env.python_ver }}
         uses: actions/setup-python@v2
         with:
