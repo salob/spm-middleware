@@ -23,7 +23,7 @@ jobs:
       ARTIFACTORY_TOKEN: "${{ secrets.ARTIFACTORY_TOKEN }}"
       ARTIFACTORY_REPO: "${{ secrets.ARTIFACTORY_REPO }}"
       ARTIFACTORY_URL: "${{ secrets.ARTIFACTORY_URL }}"
-      CUSTOM_CHECKOUT_LOC: "$GITHUB_REPOSITORY_OWNER"
+      CUSTOM_CHECKOUT_LOC: "repo"
       python_ver: "3.10"
     runs-on: ubuntu-latest
     strategy:
@@ -60,7 +60,8 @@ jobs:
       # remove android and dotnet to gain more spaces for oracle installation
       - name: Maximize build space
         run: |
-          ls -la ${{ env.CUSTOM_CHECKOUT_LOC }}
+          ls
+          ls -la "${{ env.CUSTOM_CHECKOUT_LOC }}"
           df -h
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /usr/share/dotnet
