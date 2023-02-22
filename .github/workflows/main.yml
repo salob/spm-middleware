@@ -59,6 +59,7 @@ jobs:
       # remove android and dotnet to gain more spaces for oracle installation
       - name: Maximize build space
         run: |
+          ls -la spm_middleware
           df -h
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /usr/share/dotnet
@@ -77,8 +78,9 @@ jobs:
           # Create folder structure required by ansible-test and other tooling
           # cd ..
           mkdir -p ansible_collections/$COLLECTION_NAMESPACE
-          mv spm_middleware ansible_collections/$COLLECTION_NAMESPACE/
+          mv spm_middleware ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
           cd ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          ls -la
           # Fake install cloned collection (required for molecule)
           mkdir -p $HOME/.ansible/collections/$COLLECTION_NAMESPACE
           ln -s ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME $HOME/.ansible/collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
