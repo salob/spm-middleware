@@ -72,20 +72,24 @@ jobs:
           python -m pip install -r ci-requirements.txt
       - name: Prepare environment
         run: |
-          # fudge collection install for molecule where role/plugin dependencies are required
-          ls -la
-          chmod -v +x ./scripts/*
-          echo $PWD
-          mkdir -p $HOME/.ansible/collections/merative
+          export COLLECTION_NAMESPACE=$(yq e '.namespace' galaxy.yml)
+          export COLLECTION_NAME=$(yq e '.name' galaxy.yml)
+          export COLLECTION_VERSION=$(yq e '.version' galaxy.yml)
+          export REPO_CLONE_FOLDERNAME=${PWD##*/}
+          # Create folder structure required by ansible-test and other tooling
           cd ..
-          mv spm_middleware /opt/spm_middleware
-          ln -s /opt/spm_middleware $HOME/.ansible/collections/merative/spm_middleware
-          ls $HOME/.ansible/collections/merative/spm_middleware
-          mkdir spm_middleware
+          mkdir -p ansible_collections/$COLLECTION_NAMESPACE
+          mv $REPO_CLONE_FOLDERNAME ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          cd ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          # Fake install cloned collection (required for molecule)
+          mkdir -p $HOME/.ansible/collections/$COLLECTION_NAMESPACE
+          ln -s ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME $HOME/.ansible/collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+
       # - name: Sanity checks
       #   run: |
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
       - name: Molecule
         run: |
           cd /opt/spm_middleware
+          export ANSIBLE_LIBRARY=plugins/modules
           molecule test -s ${{ matrix.scenario }}
