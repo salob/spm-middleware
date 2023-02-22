@@ -36,7 +36,7 @@ jobs:
           # - oracle12cR1-centos-7
           # - oracle12cR2-centos-7
           # - oracle19c-centos-8
-          # - iim-191-centos-8
+          - iim-191-centos-8
           # - ihs-v90-centos-8
           # - ihs-v80-centos-7
           # - ohs-v12.2.1-centos-7
@@ -88,4 +88,4 @@ jobs:
       - name: Molecule
         run: |
           cd /opt/spm_middleware
-          molecule -vvv test -s ${{ matrix.scenario }}
+          molecule test -s ${{ matrix.scenario }}
