@@ -90,6 +90,4 @@ jobs:
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
       - name: Molecule
         run: |
-          cd /opt/spm_middleware
-          export ANSIBLE_LIBRARY=plugins/modules
           molecule test -s ${{ matrix.scenario }}
