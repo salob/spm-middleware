@@ -49,6 +49,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          path: spm_middleware
       - name: Setup Python v${{ env.python_ver }}
         uses: actions/setup-python@v2
         with:
@@ -70,11 +72,11 @@ jobs:
           export COLLECTION_NAMESPACE=$(yq e '.namespace' galaxy.yml)
           export COLLECTION_NAME=$(yq e '.name' galaxy.yml)
           export COLLECTION_VERSION=$(yq e '.version' galaxy.yml)
-          export REPO_CLONE_FOLDERNAME=${PWD##*/}
+          # export REPO_CLONE_FOLDERNAME=${PWD##*/}
           # Create folder structure required by ansible-test and other tooling
-          cd ..
+          # cd ..
           mkdir -p ansible_collections/$COLLECTION_NAMESPACE
-          mv $REPO_CLONE_FOLDERNAME ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          mv spm_middleware ansible_collections/$COLLECTION_NAMESPACE/
           cd ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
           # Fake install cloned collection (required for molecule)
           mkdir -p $HOME/.ansible/collections/$COLLECTION_NAMESPACE
@@ -85,4 +87,6 @@ jobs:
       #     ansible-test sanity --docker -v --color --python ${{ env.python_ver }}
       - name: Molecule
         run: |
+          cd ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          ls -la
           molecule test -s ${{ matrix.scenario }}
